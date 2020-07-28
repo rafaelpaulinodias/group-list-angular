@@ -1,0 +1,49 @@
+<div class="page">
+    <div class="formItem">
+        <div mdcTextField class="inputItem" [box]="false" [outlined]="true" [dense]="true">
+            <input mdcTextFieldInput type="text"/>
+            <label mdcFloatingLabel>Nome do item</label>
+        </div>
+
+        <div mdcTextField class="inputPreco" [box]="false" [outlined]="true" [dense]="true">
+            <input mdcTextFieldInput type="text"/>
+            <label mdcFloatingLabel>Qnt</label>
+        </div>
+
+        <div mdcTextField class="inputPreco" [box]="false" [outlined]="true" [dense]="true">
+            <input mdcTextFieldInput type="text"/>
+            <label mdcFloatingLabel>Preço</label>
+        </div>
+    </div>
+
+    <div mdcListGroup class="listContainer">
+        <ul mdcList [dense]="false" *ngFor="let item of list.items">
+            <li mdcListItem>
+                <div class="listItem">
+                    <div class="itemDados">
+                        <div>
+                            <button mdcIconButton id="favorite"
+                                class="material-icons"
+                                labelOn="Remove from favorites"
+                                labelOff="Add to favorites"
+                                iconOn="done"
+                                iconOff="add_shopping_cart"
+                                [on]="item.inCart"
+                                (onChange)="onButtomCartClick(item)"
+                            >
+                            </button>
+                        </div>
+                        <div>{{ item.name }}</div>
+                        <div>{{ item.amount }}</div>
+                        <div class="itemSubTotal">{{ item.price | currency:'BRL':true:'1.2-2' }}</div>
+                    </div>
+                    <div class="itemTotal">Total: {{ item.total | currency:'BRL':true:'1.2-2' }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <h2>
+        Carrinho: {{ list.totalInCart | currency:'BRL':true:'1.2-2' }}  Total: {{ list.total | currency:'BRL':true:'1.2-2' }}
+    </h2>
+</div>
