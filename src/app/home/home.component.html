@@ -1,0 +1,51 @@
+<div class="page">
+    <div mdcListGroup class="list-container">
+        <ul mdcList *ngFor="let list of lists">
+            <li mdcListItem (click)="onListItemClick()">
+                <div class="list-item">
+                    <div class="item-icon">
+                        <span *ngIf="false" class="material-icons-outlined">assignment</span>
+                        <span *ngIf="true" class="material-icons-outlined">assignment_turned_in</span>
+                    </div>
+                    <div class="item-name" >
+                        {{ list.name | titlecase }}
+                    </div>
+                    <div class="item-total">{{ list.total | currency:'BRL' }}</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="btn-newlist-container">
+        <button mdcFab extended class="btn-new-list" (click)="dialogNewList.open()">
+            <span mdcFabIcon class="material-icons">note_add</span>
+            <span mdcFabLabel>Nova Lista</span>
+        </button>
+    </div>
+
+</div>
+
+<aside #dialogNewList="mdcDialog" mdcDialog mdcFocusTrap>
+    <div mdcDialogSurface>
+    <header mdcDialogHeader>
+        <h2 mdcDialogHeaderTitle>Nava Lista</h2>
+    </header>
+    <section mdcDialogBody>
+        <div mdcTextField class="input-list-name" [box]="false" [outlined]="true" [dense]="true">
+            <input 
+                mdcTextFieldInput
+                type="text"
+                tabindex="0"
+                name="name"
+            />
+            <label mdcFloatingLabel>Nome da Lista</label>
+        </div>
+    </section>
+    <footer mdcDialogFooter>
+        <button mdcButton mdcDialogCancel>CANCELAR</button>
+        <button mdcButton mdcDialogAccept>SALVAR</button>
+    </footer>
+    </div>
+
+    <div mdcDialogBackdrop></div>
+</aside>

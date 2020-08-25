@@ -1,20 +1,31 @@
 import { Item } from './item';
 
 export class MarketList {
-    nome: string;
+    name: string;
     totalInCart: number;
     total: number;
     items: Array<Item>;
 
-    constructor() {
+    constructor(name?: string) {
+        if (name) {
+            this.name = name;
+        }
         this.items = new Array<Item>();
         this.total = 0;
         this.totalInCart = 0;
     }
 
     add(item: Item) {
+        if (item.name.trim() == "") {
+            throw new Error("the name cannot be empty");
+        }
+
+        if (this.findItemByName(item.name)) {
+            throw new Error("this item has already been inserted");
+        }
         this.addToTotal(item);
-        this.items.push(item);
+        let newItem = new Item(item.name, item.amount, item.price);
+        this.items.push(newItem);
     }
 
     remove(item: Item) {
@@ -36,12 +47,10 @@ export class MarketList {
     }
 
     addToTotal(item: Item) {
-        console.log(item.total)
         this.total += item.total;
         if (item.inCart) {
             this.totalInCart += item.total;
         }
-        console.log(this.total);
     }
 
     subFromTotal(item: Item) {
@@ -49,6 +58,11 @@ export class MarketList {
         if (item.inCart) {
             this.totalInCart -= item.total;
         }
+    }
+
+    findItemByName(itemName: string) {
+        const result = this.items.find( ({ name }) => name.toLocaleUpperCase() === itemName.toUpperCase() );
+        return result;
     }
 
 }

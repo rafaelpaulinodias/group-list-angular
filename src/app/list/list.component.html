@@ -1,49 +1,108 @@
 <div class="page">
-    <div class="formItem">
-        <div mdcTextField class="inputItem" [box]="false" [outlined]="true" [dense]="true">
-            <input mdcTextFieldInput type="text"/>
-            <label mdcFloatingLabel>Nome do item</label>
+    <div class="form-item">
+        <div mdcTextField class="input-item-name" [box]="false" [outlined]="true" [dense]="true">
+            <input 
+                mdcTextFieldInput
+                type="text"
+                tabindex="0"
+                (keydown.enter)="onEnterUp($event)"
+                [(ngModel)]="item.name"
+                name="name"
+            />
+            <label mdcFloatingLabel>Item</label>
         </div>
 
-        <div mdcTextField class="inputPreco" [box]="false" [outlined]="true" [dense]="true">
-            <input mdcTextFieldInput type="text"/>
+        <div mdcTextField class="input-item-amount" [box]="false" [outlined]="true" [dense]="true">
+            <input
+                mdcTextFieldInput
+                type="number"
+                min="0"
+                step="1"
+                tabindex="1"
+                (keydown.enter)="onEnterUp($event)"
+                [(ngModel)]="item.amount"
+                name="amount"
+            />
             <label mdcFloatingLabel>Qnt</label>
         </div>
 
-        <div mdcTextField class="inputPreco" [box]="false" [outlined]="true" [dense]="true">
-            <input mdcTextFieldInput type="text"/>
+        <div mdcTextField class="input-item-price" [box]="false" [outlined]="true" [dense]="true">
+            <input
+                mdcTextFieldInput
+                currencyMask
+                type="tel"
+                tabindex="2"
+                (keydown.enter)="save()"
+                [(ngModel)]="item.price"
+                name="price"
+            />
             <label mdcFloatingLabel>Preço</label>
         </div>
     </div>
 
-    <div mdcListGroup class="listContainer">
+    <div mdcListGroup class="list-container">
         <ul mdcList [dense]="false" *ngFor="let item of list.items">
             <li mdcListItem>
-                <div class="listItem">
-                    <div class="itemDados">
-                        <div>
-                            <button mdcIconButton id="favorite"
-                                class="material-icons"
-                                labelOn="Remove from favorites"
-                                labelOff="Add to favorites"
-                                iconOn="done"
-                                iconOff="add_shopping_cart"
-                                [on]="item.inCart"
-                                (onChange)="onButtomCartClick(item)"
-                            >
-                            </button>
-                        </div>
-                        <div>{{ item.name }}</div>
-                        <div>{{ item.amount }}</div>
-                        <div class="itemSubTotal">{{ item.price | currency:'BRL':true:'1.2-2' }}</div>
+                <div class="list-item">
+                    
+                    <div class="list-item-btn-cart">
+                        <button 
+                            mdcIconButton
+                            class="material-icons"
+                            iconOn="done"
+                            iconOff="add_shopping_cart"
+                            [on]="item.inCart"
+                            (onChange)="onButtomCartClick(item)"
+                        ></button>
                     </div>
-                    <div class="itemTotal">Total: {{ item.total | currency:'BRL':true:'1.2-2' }}</div>
+
+                    <div class="list-item-name" (click)="edit(item)" (dblclick)="exclusionDialog.open()">
+                        {{ item.name | titlecase}}
+                    </div>
+
+                    <div class="list-item-amount">
+                        {{ item.amount }}
+                    </div>
+                    <div class="list-item-totals">
+                        <div class="list-item-sub-total">
+                            {{ item.price | currency:'BRL' }}
+                        </div>
+
+                        <div class="list-item-total">
+                            Total: {{ item.total | currency:'BRL' }}
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>
     </div>
 
-    <h2>
-        Carrinho: {{ list.totalInCart | currency:'BRL':true:'1.2-2' }}  Total: {{ list.total | currency:'BRL':true:'1.2-2' }}
-    </h2>
+    <div class="footer">
+        <div class="footer-cart-icon">
+            <i class="material-icons">shopping_cart</i>
+        </div>
+        <div class="footer-total-incart">
+            {{ list.totalInCart | currency:'BRL' }}
+        </div>
+        <div class="footer-total">
+            <strong>{{ list.total | currency:'BRL'}}</strong>
+        </div>
+    </div>
+
 </div>
+
+<aside #exclusionDialog="mdcDialog" mdcDialog mdcFocusTrap>
+    <div mdcDialogSurface>
+        <header mdcDialogHeader>
+            <h2 mdcDialogHeaderTitle>Excluir Item</h2>
+        </header>
+        <section mdcDialogBody>
+          Deseja excluir o item <b>{{item.name | titlecase}}</b>?
+        </section>
+      <footer mdcDialogFooter>
+        <button mdcButton mdcDialogCancel>Não</button>
+        <button mdcButton mdcDialogAccept (click)="remove()">Sim</button>
+      </footer>
+    </div>
+    <div mdcDialogBackdrop></div>
+</aside>

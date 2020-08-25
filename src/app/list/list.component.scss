@@ -1,50 +1,112 @@
 .page {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     margin: 0;
-    width: auto;
-    height: 95vh;
-    grid-template-rows: 70px auto 70px;
+    height: 90vmax;
+    padding: 5px;
 }
 
-.formItem {
-    display: grid;
-    grid-template-columns: auto 80px 80px;
-}
-
-.listItem {
-    display: grid;
+.form-item {
+    display: flex;
     width: 100%;
-    grid-template-rows: 30px 20px;
+    height: 80px;
 }
 
-.itemDados {
-    display: grid;
-    grid-template-columns: 40px auto 50px 90px;
+.input-item-name {
+    width: inherit;
 }
 
-.itemSubTotal {
-    text-align: right;
+.input-item-amount {
+    width: 100px;
 }
 
-.itemTotal {
-    width: 100%;
-    text-align: right;
-    font-size: small;
+.input-item-price {
+    width: 180px;
 }
 
-.itemCheck {
-    margin-right: 10px;
-}
-
-.totais {
-    width: 100%;
-    height: 100%;
-    text-align: right;
-    font-size: 14pt;
-    padding-top: 25px;
-    margin: 0;
+.list-container {
+    height: inherit;
+    overflow-y: scroll;
 }
 
 li {
     padding: 0;
+    padding-right: 5px;
+    border-bottom:1px solid #ccc;
+}
+
+.list-item {
+    display: flex;
+    width: 100%;
+}
+
+.list-item-btn-cart {
+    width: 70px;
+}
+
+.list-item-name {
+    display: flex;
+    align-items: center;
+    width: inherit;
+}
+
+.list-item-amount {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+}
+
+.list-item-totals {
+    display: flex;
+    flex-direction: column;
+    width: 245px;
+    text-align: end;
+}
+
+.list-item-total {
+    font-size: 0.7em;
+}
+
+.footer {
+    font-family: 'Roboto';
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 5px 5px;
+    height: 50px;
+}
+
+.footer-cart-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+}
+
+.footer-total-incart {
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0px 5px 0px 5px;
+}
+
+.footer-total {
+    display: flex;
+    width: 50%;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0px 5px 0px 5px;
+}
+
+@media(min-width: 1200px) {
+    .page{
+      width: 1120px;
+      margin: 0 auto;
+      height: calc(100vh - 141px);
+    }
+    .footer {
+        left: 0;
+    }
 }

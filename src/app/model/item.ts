@@ -9,7 +9,7 @@ export class Item {
         this.name = name;
         this.amount = amount;
         this.price = price;
-        this.total = amount * price;
+        this.updateTotal();
         this.inCart = false;
     }
 
@@ -17,7 +17,11 @@ export class Item {
         this.name = name;
         this.amount = amount;
         this.price = price;
-        this.total = amount * price;
+        this.updateTotal();
+    }
+
+    updateTotal() {
+        this.total = this.amount * this.price;
     }
 
 }
