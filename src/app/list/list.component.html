@@ -6,7 +6,7 @@
                 type="text"
                 tabindex="0"
                 (keydown.enter)="onEnterUp($event)"
-                [(ngModel)]="item.name"
+                [(ngModel)]="selItem.name"
                 name="name"
             />
             <label mdcFloatingLabel>Item</label>
@@ -20,7 +20,7 @@
                 step="1"
                 tabindex="1"
                 (keydown.enter)="onEnterUp($event)"
-                [(ngModel)]="item.amount"
+                [(ngModel)]="selItem.amount"
                 name="amount"
             />
             <label mdcFloatingLabel>Qnt</label>
@@ -32,8 +32,8 @@
                 currencyMask
                 type="tel"
                 tabindex="2"
-                (keydown.enter)="save()"
-                [(ngModel)]="item.price"
+                (keydown.enter)="save(selItem)"
+                [(ngModel)]="selItem.price"
                 name="price"
             />
             <label mdcFloatingLabel>Preço</label>
@@ -47,16 +47,16 @@
                     
                     <div class="list-item-btn-cart">
                         <button 
-                            mdcIconButton
+                        mdcIconButton
+                            [on]="item.inCart"
                             class="material-icons"
                             iconOn="done"
                             iconOff="add_shopping_cart"
-                            [on]="item.inCart"
                             (onChange)="onButtomCartClick(item)"
                         ></button>
                     </div>
 
-                    <div class="list-item-name" (click)="edit(item)" (dblclick)="exclusionDialog.open()">
+                    <div class="list-item-name" (click)="edit(item)" (dblclick)="onItemDblClick(item); exclusionDialog.open()">
                         {{ item.name | titlecase}}
                     </div>
 
@@ -97,7 +97,7 @@
             <h2 mdcDialogHeaderTitle>Excluir Item</h2>
         </header>
         <section mdcDialogBody>
-          Deseja excluir o item <b>{{item.name | titlecase}}</b>?
+          Deseja excluir o item <b>{{deleteItem.name | titlecase}}</b>?
         </section>
       <footer mdcDialogFooter>
         <button mdcButton mdcDialogCancel>Não</button>

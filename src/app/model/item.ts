@@ -5,15 +5,15 @@ export class Item {
     total: number;
     inCart: boolean;
 
-    constructor(name: string, amount: number, price: number) {
+    constructor(name: string, amount: number, price: number, inCart: boolean) {
         this.name = name;
         this.amount = amount;
         this.price = price;
+        this.inCart = inCart;
         this.updateTotal();
-        this.inCart = false;
     }
 
-    change (name: string, amount: number, price: number) {
+    update (name: string, amount: number, price: number) {
         this.name = name;
         this.amount = amount;
         this.price = price;

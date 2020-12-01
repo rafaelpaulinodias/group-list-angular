@@ -1,7 +1,7 @@
 <div class="page">
     <div mdcListGroup class="list-container">
         <ul mdcList *ngFor="let list of lists">
-            <li mdcListItem (click)="onListItemClick()">
+            <li mdcListItem (click)="onListItemClick(list.id)">
                 <div class="list-item">
                     <div class="item-icon">
                         <span *ngIf="false" class="material-icons-outlined">assignment</span>
@@ -28,22 +28,24 @@
 <aside #dialogNewList="mdcDialog" mdcDialog mdcFocusTrap>
     <div mdcDialogSurface>
     <header mdcDialogHeader>
-        <h2 mdcDialogHeaderTitle>Nava Lista</h2>
+        <h2 mdcDialogHeaderTitle>Nova Lista</h2>
     </header>
     <section mdcDialogBody>
         <div mdcTextField class="input-list-name" [box]="false" [outlined]="true" [dense]="true">
             <input 
                 mdcTextFieldInput
+                #name
+                [(ngModel)]="listName"
                 type="text"
                 tabindex="0"
-                name="name"
+                name="listName"
             />
             <label mdcFloatingLabel>Nome da Lista</label>
         </div>
     </section>
     <footer mdcDialogFooter>
-        <button mdcButton mdcDialogCancel>CANCELAR</button>
-        <button mdcButton mdcDialogAccept>SALVAR</button>
+        <button mdcButton mdcDialogCancel (click)="onCancelClick()">CANCELAR</button>
+        <button mdcButton mdcDialogAccept (click)="onSaveClick()">SALVAR</button>
     </footer>
     </div>
 

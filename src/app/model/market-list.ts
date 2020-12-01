@@ -1,18 +1,30 @@
 import { Item } from './item';
 
 export class MarketList {
+    id: string;
     name: string;
     totalInCart: number;
     total: number;
     items: Array<Item>;
 
-    constructor(name?: string) {
+    constructor(id?:string, name?: string) {
         if (name) {
             this.name = name;
         }
         this.items = new Array<Item>();
         this.total = 0;
         this.totalInCart = 0;
+    }
+
+    build(list: MarketList) {
+        this.id = list.id;
+        this.name = list.name;
+        this.items = new Array<Item>();
+        list.items.forEach(
+            item => this.items.push(new Item(item.name, item.amount, item.price, item.inCart))
+        );
+        this.calcTotal();
+        this.calcTotalInCart();
     }
 
     add(item: Item) {
@@ -24,7 +36,7 @@ export class MarketList {
             throw new Error("this item has already been inserted");
         }
         this.addToTotal(item);
-        let newItem = new Item(item.name, item.amount, item.price);
+        let newItem = new Item(item.name, item.amount, item.price, false);
         this.items.push(newItem);
     }
 
@@ -63,6 +75,16 @@ export class MarketList {
     findItemByName(itemName: string) {
         const result = this.items.find( ({ name }) => name.toLocaleUpperCase() === itemName.toUpperCase() );
         return result;
+    }
+
+    calcTotal() {
+        this.total = 0;
+        this.items.forEach(item => this.total += item.total);
+    }
+
+    calcTotalInCart() {
+        this.totalInCart = 0;
+        this.items.forEach(item => item.inCart ? this.totalInCart += item.total : this.totalInCart += 0);
     }
 
 }
