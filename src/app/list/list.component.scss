@@ -26,13 +26,22 @@
 
 .list-container {
     height: inherit;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 li {
     padding: 0;
     padding-right: 5px;
     border-bottom:1px solid #ccc;
+}
+
+.list-name {
+    font-family: 'Roboto';
+    font-size: 1.2em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .list-item {

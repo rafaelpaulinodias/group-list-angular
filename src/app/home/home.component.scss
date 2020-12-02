@@ -14,7 +14,9 @@ li {
 }
 
 .list-container {
-    overflow-y: scroll;
+    margin: 5px;
+    height: 90vmax;
+    overflow-y: auto;
 }
 
 .list-item {

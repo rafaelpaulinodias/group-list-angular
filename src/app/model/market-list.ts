@@ -7,7 +7,7 @@ export class MarketList {
     total: number;
     items: Array<Item>;
 
-    constructor(id?:string, name?: string) {
+    constructor(name?: string) {
         if (name) {
             this.name = name;
         }
@@ -85,6 +85,14 @@ export class MarketList {
     calcTotalInCart() {
         this.totalInCart = 0;
         this.items.forEach(item => item.inCart ? this.totalInCart += item.total : this.totalInCart += 0);
+    }
+
+    isAllInCart(): boolean {
+        return (this.total == this.totalInCart) && (this.items.length != 0);
+    }
+
+    isEmpty(): boolean {
+        return this.items.length == 0;
     }
 
 }

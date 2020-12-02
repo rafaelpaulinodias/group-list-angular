@@ -71,6 +71,8 @@ export class ListComponent implements OnInit {
       this.listService.updateItem(this.list.id, itemIndex, item).subscribe(() => {
         this.selItem = new Item('', 1, 0, false);
         this.editing = false;
+        this.list.calcTotal();
+        this.list.calcTotalInCart();
       });
     }
   }

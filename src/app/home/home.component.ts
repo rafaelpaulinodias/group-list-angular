@@ -10,7 +10,11 @@ import { ListService } from '../list.service';
 })
 export class HomeComponent implements OnInit {
 
-  listName: string
+  listName: string;
+
+  editing: boolean = false;
+
+  selList: MarketList = new MarketList();
 
   lists: Array<MarketList> = new Array();
 
@@ -20,7 +24,13 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listService.listAll().subscribe(resp => {this.lists = resp});
+    this.listService.listAll().subscribe(resp => {
+      resp.forEach(list => {
+        let newList = new MarketList();
+        newList.build(list);
+        this.lists.push(newList);
+      })
+    });
   }
 
   onListItemClick(marketListId: string) {
@@ -29,18 +39,43 @@ export class HomeComponent implements OnInit {
 
   onCancelClick() {
     this.listName = '';
+    this.editing = false;
   }
 
   onSaveClick() {
-    this.save(new MarketList(this.listName));
-    this.listName = '';
+    if (this.editing) {
+      this.selList.name = this.listName;
+      this.listService.update(this.selList).subscribe(() => {
+        this.editing = false;
+        this.listName = '';
+      });
+    } else {
+      this.save(new MarketList(this.listName));
+    }
+  }
+
+  onEditClick(list: MarketList) {
+    this.editing = true;
+    this.listName = list.name;
+    this.selList = list;
+  }
+
+  onRemoveClick(list: MarketList) {
+    this.selList = list;
   }
 
   save(list: MarketList) {
-    this.listService.save(list).subscribe(resp => {
-      this.lists.push(resp);
-      console.log(this.lists);
+    this.listService.save(list).subscribe(savedList => {
+      let newList = new MarketList();
+      newList.build(savedList);
+      this.lists.push(newList);
+      this.listName = '';
     });
+  }
+
+  remove() {
+    const index = this.lists.indexOf(this.selList);
+    this.listService.delete(this.selList.id).subscribe(() => this.lists.splice(index, 1));
   }
 
 }

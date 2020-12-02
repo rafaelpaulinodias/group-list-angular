@@ -1,7 +1,14 @@
 
 
 // import theming for all mdc components:
-@import "material-components-web/material-components-web";
+@import "@material/button/mdc-button";
+@import "@material/toolbar/mdc-toolbar";
+@import "@material/dialog/mdc-dialog";
+@import "@material/textfield/mdc-text-field";
+@import "@material/list/mdc-list";
+@import "@material/icon-button/mdc-icon-button";
+@import "@material/icon-toggle/mdc-icon-toggle";
+@import "@material/fab/mdc-fab";
 
 body {
     padding: 0 !important;

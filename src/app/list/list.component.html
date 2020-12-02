@@ -1,4 +1,7 @@
 <div class="page">
+    <div class="list-name">
+        {{list.name | titlecase}}
+    </div>
     <div class="form-item">
         <div mdcTextField class="input-item-name" [box]="false" [outlined]="true" [dense]="true">
             <input 
@@ -101,7 +104,7 @@
         </section>
       <footer mdcDialogFooter>
         <button mdcButton mdcDialogCancel>Não</button>
-        <button mdcButton mdcDialogAccept (click)="remove()">Sim</button>
+        <button mdcButton mdcDialogAccept (click)="remove()">Excluir</button>
       </footer>
     </div>
     <div mdcDialogBackdrop></div>
