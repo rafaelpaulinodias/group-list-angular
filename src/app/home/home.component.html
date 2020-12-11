@@ -17,7 +17,7 @@
                             mdcIconButton
                             z-index="9999"
                             class="material-icons-outlined"
-                            (click)="onEditClick(list); dialogList.open()">
+                            (click)="onListItemEditButtonClick(list); dialogList.open()">
                             edit
                         </button>
                     </div>
@@ -26,7 +26,7 @@
                             mdcIconButton
                             z-index="9999"
                             class="material-icons-outlined"
-                            (click)="onRemoveClick(list); exclusionDialog.open()">
+                            (click)="onListItemDeleteButtonClick(list); exclusionDialog.open()">
                             delete
                         </button>
                     </div>
@@ -63,8 +63,8 @@
         </div>
     </section>
     <footer mdcDialogFooter>
-        <button mdcButton mdcDialogCancel (click)="onCancelClick()">CANCELAR</button>
-        <button mdcButton mdcDialogAccept (click)="onSaveClick()">SALVAR</button>
+        <button mdcButton mdcDialogCancel (click)="onDialogListButtonCancelClick()">CANCELAR</button>
+        <button mdcButton mdcDialogAccept (click)="onDialogListButtonSaveClick()">SALVAR</button>
     </footer>
     </div>
 
@@ -77,11 +77,11 @@
             <h2 mdcDialogHeaderTitle>Excluir Lista</h2>
         </header>
         <section mdcDialogBody>
-          Deseja excluir a Lista <b>{{selList.name | titlecase}}</b>?
+          Deseja excluir a Lista <b>{{selectList.name | titlecase}}</b>?
         </section>
       <footer mdcDialogFooter>
         <button mdcButton mdcDialogCancel>Não</button>
-        <button mdcButton mdcDialogAccept (click)="remove()">Excuir</button>
+        <button mdcButton mdcDialogAccept (click)="onExclusionDialogButtonExcludeClick()">Excuir</button>
       </footer>
     </div>
     <div mdcDialogBackdrop></div>

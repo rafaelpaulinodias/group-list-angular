@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MarketList } from '../model/market-list';
 import { Item } from '../model/item';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ListService } from '../list.service';
+import { StringUtil } from '../utils/string-utils';
 
 @Component({
   selector: 'app-list',
@@ -11,15 +12,17 @@ import { ListService } from '../list.service';
 })
 export class ListComponent implements OnInit {
 
-  list: MarketList = new MarketList();
-  selItem: Item = new Item('', 1, 0, false);
-  deleteItem: Item = new Item('', 1, 0, false);
+  list: MarketList = new MarketList("");
+  formItem: Item = new Item();
+  selectItemIndex: number = 0;
+  itemToRemove: Item = new Item();
   editing: boolean = false;
   timeMousePress: Date;
 
   constructor(
     private listService: ListService,
     private routeAct: ActivatedRoute,
+    private stringUtil: StringUtil
     ) 
     {
       const marketListId = this.routeAct.snapshot.params['marketListId']
@@ -36,13 +39,38 @@ export class ListComponent implements OnInit {
     const inputs = document.getElementsByTagName('input');
     const tabIndex = event.target.tabIndex;
     inputs[tabIndex + 1].focus();
-    this.selItem.updateTotal();
   }
-  
+
+  onListItemClick(item: Item) {
+    this.placeItemToEdit(item);
+  }
+
   onItemDblClick(item: Item) {
-    this.deleteItem = item;  
+    this.itemToRemove = item;  
   }
   
+  onEnterKeyDownInputPrice() {
+    if (this.editing) {
+      if(this.formItem.name.toUpperCase() != this.list.items[this.selectItemIndex].name.toUpperCase()) {
+        try {
+          this.list.validateList(this.formItem);
+          this.updateItem(this.selectItemIndex, this.formItem);
+        } catch (error) {
+          alert(error);
+          this.resetFormSelItem();
+        }
+      }
+    } else {
+      try {
+        this.list.validateList(this.formItem);
+        this.saveItem(this.formItem);
+      } catch (error) {
+        alert(error);
+        this.resetFormSelItem();
+      }
+    }
+  }
+
   onButtomCartClick(item: Item) {
     const listId = this.list.id;
     const itemIndex = this.list.items.indexOf(item);
@@ -56,41 +84,46 @@ export class ListComponent implements OnInit {
     });
   }
 
-  save(item: Item) {
-    item.updateTotal();
-    if (!this.editing) {
-      this.listService.addItem(this.list.id, item).subscribe(() => {
-        this.list.add(item);
-        this.selItem = new Item('', 1, 0, false);
-        this.list.calcTotal();
-        this.list.calcTotalInCart();
-        document.getElementsByTagName('input')[0].focus();
-      });
-    } else {
-      const itemIndex = this.list.items.indexOf(this.selItem);
-      this.listService.updateItem(this.list.id, itemIndex, item).subscribe(() => {
-        this.selItem = new Item('', 1, 0, false);
-        this.editing = false;
-        this.list.calcTotal();
-        this.list.calcTotalInCart();
-      });
-    }
+  onDialogButtonExcludeClick() {
+    this.removeItem(this.itemToRemove);
   }
 
-  edit(item: Item) {
-    this.selItem = item;
-    document.getElementsByTagName('input')[0].focus();
-    this.editing = true;
-  }
-
-  remove() {
-    const listId = this.list.id;
-    const itemIndex = this.list.items.indexOf(this.deleteItem);
-    this.listService.removeItem(listId, itemIndex).subscribe(() => {
-      this.list.remove(this.deleteItem);
-      this.list.calcTotal();
-      this.list.calcTotalInCart();
+  saveItem(item: Item) {
+    this.listService.addItem(this.list.id, item).subscribe(()=>{
+      this.list.addItem(this.formItem);
+      this.resetFormSelItem();
     });
+  }
+
+  updateItem(itemIndex: number, item: Item){
+    this.listService.updateItem(this.list.id, itemIndex, item).subscribe(()=>{
+      this.list.updateItem(this.selectItemIndex, this.formItem);
+      this.resetFormSelItem();
+    });
+  }
+
+  removeItem(item: Item) {
+    const listId = this.list.id;
+    const itemIndex = this.list.items.indexOf(item);
+    this.listService.removeItem(listId, itemIndex).subscribe(() => {
+      this.list.removeItem(item);
+      this.resetFormSelItem();
+    });
+  }
+
+  placeItemToEdit(item: Item) {
+    this.selectItemIndex = this.list.items.indexOf(item);
+    this.formItem = new Item();
+    this.formItem.parse(item)
+    this.formItem.name = this.stringUtil.toTitleCase(item.name);
+    this.editing = true;
+    document.getElementsByTagName('input')[0].focus();
+  }
+
+  resetFormSelItem() {
+    this.formItem = new Item();
+    this.editing = false;
+    document.getElementsByTagName('input')[0].focus();
   }
 
 }

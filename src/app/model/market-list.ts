@@ -8,9 +8,7 @@ export class MarketList {
     items: Array<Item>;
 
     constructor(name?: string) {
-        if (name) {
-            this.name = name;
-        }
+        name ? this.name = name.toUpperCase() : this.name = "";
         this.items = new Array<Item>();
         this.total = 0;
         this.totalInCart = 0;
@@ -18,54 +16,84 @@ export class MarketList {
 
     build(list: MarketList) {
         this.id = list.id;
-        this.name = list.name;
+        this.name = list.name.toUpperCase();
         this.items = new Array<Item>();
-        list.items.forEach(
-            item => this.items.push(new Item(item.name, item.amount, item.price, item.inCart))
-        );
-        this.calcTotal();
-        this.calcTotalInCart();
+        list.items.forEach(item => {
+            let newItem = new Item();
+            newItem.parse(item);
+            this.addItem(newItem);
+        });
     }
 
-    add(item: Item) {
-        if (item.name.trim() == "") {
-            throw new Error("the name cannot be empty");
-        }
+    updateTotal() {
+        this.total = 0;
+        this.items.forEach(item => {
+            this.total += item.total;
+        });
+    }
 
-        if (this.findItemByName(item.name)) {
-            throw new Error("this item has already been inserted");
-        }
-        this.addToTotal(item);
-        let newItem = new Item(item.name, item.amount, item.price, false);
+    updateTotalInCart() {
+        this.totalInCart = 0;
+        this.items.forEach(item => {
+            if (item.inCart) this.totalInCart += item.total;
+        });
+    }
+
+    addItem(item: Item) {
+        this.validateList(item);
+        let newItem = new Item();
+        newItem.parse(item);
+        newItem.name = newItem.name.toUpperCase();
         this.items.push(newItem);
+        this.addToTotal(newItem);
     }
 
-    remove(item: Item) {
+    removeItem(item: Item): Item {
         const index = this.items.indexOf(item);
-        this.subFromTotal(this.items[index]);
+        if (item.inCart) {
+            this.removeFromCart(item);
+        }
+        this.subFromTotal(item);
         this.items.splice(index, 1);
+        return item;
+    }
+
+    updateItem(itemIndex: number, item: Item) {
+        let savedItem = this.items[itemIndex];
+        if (savedItem.name.toUpperCase() == item.name.toUpperCase()) {
+            savedItem.parse(item);
+        } else {
+            this.validateList(item);
+            savedItem.parse(item);
+        }
     }
 
     putInCart(item: Item) {
-        const index = this.items.indexOf(item);
-        this.items[index].inCart = true;
-        this.totalInCart += this.items[index].total;
+        if (!item.inCart) {
+            console.log("putInCart")
+            const index = this.items.indexOf(item);
+            this.items[index].inCart = true;
+            this.totalInCart += this.items[index].total;
+        }
     }
 
     removeFromCart(item: Item) {
-        const index = this.items.indexOf(item);
-        this.items[index].inCart = false;
-        this.totalInCart -= this.items[index].total;
+        if (item.inCart) {
+            console.log("removeFromCart")
+            const index = this.items.indexOf(item);
+            this.items[index].inCart = false;
+            this.totalInCart -= item.total;
+        }
     }
 
-    addToTotal(item: Item) {
+    private addToTotal(item: Item) {
         this.total += item.total;
         if (item.inCart) {
             this.totalInCart += item.total;
         }
     }
 
-    subFromTotal(item: Item) {
+    private subFromTotal(item: Item) {
         this.total -= item.total;
         if (item.inCart) {
             this.totalInCart -= item.total;
@@ -73,18 +101,10 @@ export class MarketList {
     }
 
     findItemByName(itemName: string) {
-        const result = this.items.find( ({ name }) => name.toLocaleUpperCase() === itemName.toUpperCase() );
+        const result = this.items.find( 
+            ({ name }) => name.toLocaleUpperCase() === itemName.toUpperCase()
+        );
         return result;
-    }
-
-    calcTotal() {
-        this.total = 0;
-        this.items.forEach(item => this.total += item.total);
-    }
-
-    calcTotalInCart() {
-        this.totalInCart = 0;
-        this.items.forEach(item => item.inCart ? this.totalInCart += item.total : this.totalInCart += 0);
     }
 
     isAllInCart(): boolean {
@@ -93,6 +113,24 @@ export class MarketList {
 
     isEmpty(): boolean {
         return this.items.length == 0;
+    }
+
+    private existsItemWithThisName(name: string): boolean {
+        const itemByName= this.findItemByName(name);
+        if (itemByName) {
+            return true;
+        }
+        return false;
+    }
+
+    validateList(item: Item) {
+        if (item.name.trim() == "") {
+            throw new Error("The name can not be empty");
+        }
+
+        if (this.findItemByName(item.name.toUpperCase())) {
+            throw new Error("This item has already been inserted");
+        }
     }
 
 }

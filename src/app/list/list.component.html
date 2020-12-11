@@ -9,7 +9,7 @@
                 type="text"
                 tabindex="0"
                 (keydown.enter)="onEnterUp($event)"
-                [(ngModel)]="selItem.name"
+                [(ngModel)]="formItem.name"
                 name="name"
             />
             <label mdcFloatingLabel>Item</label>
@@ -23,7 +23,7 @@
                 step="1"
                 tabindex="1"
                 (keydown.enter)="onEnterUp($event)"
-                [(ngModel)]="selItem.amount"
+                [(ngModel)]="formItem.amount"
                 name="amount"
             />
             <label mdcFloatingLabel>Qnt</label>
@@ -35,8 +35,8 @@
                 currencyMask
                 type="tel"
                 tabindex="2"
-                (keydown.enter)="save(selItem)"
-                [(ngModel)]="selItem.price"
+                (keydown.enter)="onEnterKeyDownInputPrice()"
+                [(ngModel)]="formItem.price"
                 name="price"
             />
             <label mdcFloatingLabel>Preço</label>
@@ -59,7 +59,10 @@
                         ></button>
                     </div>
 
-                    <div class="list-item-name" (click)="edit(item)" (dblclick)="onItemDblClick(item); exclusionDialog.open()">
+                    <div 
+                    class="list-item-name" 
+                    (click)="onListItemClick(item)" 
+                    (dblclick)="onItemDblClick(item); exclusionDialog.open()">
                         {{ item.name | titlecase}}
                     </div>
 
@@ -100,11 +103,11 @@
             <h2 mdcDialogHeaderTitle>Excluir Item</h2>
         </header>
         <section mdcDialogBody>
-          Deseja excluir o item <b>{{deleteItem.name | titlecase}}</b>?
+          Deseja excluir o item <b>{{itemToRemove.name | titlecase}}</b>?
         </section>
       <footer mdcDialogFooter>
         <button mdcButton mdcDialogCancel>Não</button>
-        <button mdcButton mdcDialogAccept (click)="remove()">Excluir</button>
+        <button mdcButton mdcDialogAccept (click)="onDialogButtonExcludeClick()">Excluir</button>
       </footer>
     </div>
     <div mdcDialogBackdrop></div>

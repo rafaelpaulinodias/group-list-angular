@@ -13,7 +13,9 @@ export class ListService {
 
   url = `${environment.apiUrl}/market-list`;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   listAll(): Observable<Array<MarketList>> {
     return this.http.get<Array<MarketList>>(this.url).pipe(take(1));
