@@ -11,7 +11,7 @@ import { Item } from './model/item'
 })
 export class ListService {
 
-  url = `${environment.apiUrl}/market-list`;
+  url = `${environment.apiUrl}/my-market-list`;
 
   constructor(
     private http: HttpClient

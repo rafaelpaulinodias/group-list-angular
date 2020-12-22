@@ -6,14 +6,23 @@
 @import "@material/dialog/mdc-dialog";
 @import "@material/textfield/mdc-text-field";
 @import "@material/list/mdc-list";
+@import "@material/card/mdc-card";
 @import "@material/icon-button/mdc-icon-button";
 @import "@material/icon-toggle/mdc-icon-toggle";
 @import "@material/fab/mdc-fab";
 
 body {
+    font-family: 'Roboto';
     padding: 0 !important;
     margin: 0 !important;
-    height: 100vh;
+}
+
+.mdc-toolbar__row {
+    height: 64px !important;
+}
+
+.mdc-toolbar__section {
+    align-items: center;
 }
 
 .material-icons.tiny { 

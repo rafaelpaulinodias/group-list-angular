@@ -1,0 +1,38 @@
+<div class="login-page">
+    
+
+    <div mdcCard [outlined]="true">
+    
+        <form class="login-form" autocomplete="off" #f="ngForm">
+            <div mdcTextField class="input-login" [box]="true" [outlined]="false" [dense]="false">
+                <input 
+                    mdcTextFieldInput
+                    type="text"
+                    name="username"
+                    [(ngModel)]="username"
+                    (keydown.enter)="onEnterUp($event)"
+                    autofocus
+                />
+                <label mdcFloatingLabel>Usuário</label>
+            </div>
+            <div mdcTextField class="input-login" [box]="true" [outlined]="false" [dense]="false">
+                <input 
+                    mdcTextFieldInput
+                    type="password"
+                    name="password"
+                    [(ngModel)]="password"
+                    (keydown.enter)="onPasswordEnterUp()"
+                />
+                <label mdcFloatingLabel>Senha</label>
+            </div>
+        </form>
+    
+        <hr mdcListDivider>
+    
+        <div mdcCardActions fullBleed (click)="login()">
+          <a mdcButton href="javascript:void(0)">
+            Login <i class="material-icons" aria-hidden="true">arrow_forward</i>
+          </a>
+        </div>
+    </div>
+</div>

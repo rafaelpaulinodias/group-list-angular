@@ -51,22 +51,22 @@ export class ListComponent implements OnInit {
   
   onEnterKeyDownInputPrice() {
     if (this.editing) {
-      if(this.formItem.name.toUpperCase() != this.list.items[this.selectItemIndex].name.toUpperCase()) {
-        try {
-          this.list.validateList(this.formItem);
+      console.log("editando item");
+      if (this.haveSameName(this.selectItemIndex, this.formItem)) {
+        console.log("edit: tem mesmo nome");
+        this.updateItem(this.selectItemIndex, this.formItem);
+      } else {
+        console.log("edit: não tem mesmo nome");
+        if (this.validateItem(this.formItem)) {
+          console.log("edit: é valido");
           this.updateItem(this.selectItemIndex, this.formItem);
-        } catch (error) {
-          alert(error);
-          this.resetFormSelItem();
         }
       }
     } else {
-      try {
-        this.list.validateList(this.formItem);
+      console.log("add item");
+      if (this.validateItem(this.formItem)) {
+        console.log("add: é valido");
         this.saveItem(this.formItem);
-      } catch (error) {
-        alert(error);
-        this.resetFormSelItem();
       }
     }
   }
@@ -81,6 +81,8 @@ export class ListComponent implements OnInit {
       } else {
         this.list.removeFromCart(item);
       }
+      this.list.updateTotal();
+      this.list.updateTotalInCart();
     });
   }
 
@@ -91,6 +93,8 @@ export class ListComponent implements OnInit {
   saveItem(item: Item) {
     this.listService.addItem(this.list.id, item).subscribe(()=>{
       this.list.addItem(this.formItem);
+      this.list.updateTotal();
+      this.list.updateTotalInCart();
       this.resetFormSelItem();
     });
   }
@@ -98,6 +102,8 @@ export class ListComponent implements OnInit {
   updateItem(itemIndex: number, item: Item){
     this.listService.updateItem(this.list.id, itemIndex, item).subscribe(()=>{
       this.list.updateItem(this.selectItemIndex, this.formItem);
+      this.list.updateTotal();
+      this.list.updateTotalInCart();
       this.resetFormSelItem();
     });
   }
@@ -124,6 +130,21 @@ export class ListComponent implements OnInit {
     this.formItem = new Item();
     this.editing = false;
     document.getElementsByTagName('input')[0].focus();
+  }
+
+  validateItem(item: Item): boolean{
+    try {
+      this.list.validateList(item);
+      return true;
+    } catch (error) {
+      alert(error);
+      this.resetFormSelItem();
+      return false;
+    }
+  }
+
+  haveSameName(itemIndex: number, item: Item): boolean {
+    return item.name.toUpperCase() == this.list.items[itemIndex].name.toUpperCase();
   }
 
 }

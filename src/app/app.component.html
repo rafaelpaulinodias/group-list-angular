@@ -1,19 +1,7 @@
 
-<header mdcToolbar>
-    <div mdcToolbarRow>
-    <section mdcToolbarSection alignStart>
-        <span>
-        <a *ngIf="showBackLink()" [routerLink]="['/home']" mdcToolbarMenuIcon><i class="material-icons">&#xE5C4;</i></a>
-        <a *ngIf="!showBackLink()" href="javascript:void(0)" mdcToolbarMenuIcon><i class="material-icons">assignment</i></a>
-        </span>
-        <span mdcToolbarTitle>Glist</span>
-    </section>
-    <section mdcToolbarSection alignEnd>
 
-    </section>
-    </div>
-</header>
-<div class="container">   
+<div class="container"> 
+    <app-navbar *ngIf="showNavbar()"></app-navbar>
     <router-outlet></router-outlet>
 </div>
 

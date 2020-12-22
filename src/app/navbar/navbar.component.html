@@ -1,0 +1,30 @@
+<header mdcToolbar >
+    <div mdcToolbarRow>
+        
+        <section mdcToolbarSection alignStart>
+            <span>
+            <a *ngIf="showBackLink()" [routerLink]="['/home']" mdcToolbarMenuIcon><i class="material-icons">&#xE5C4;</i></a>
+            <a *ngIf="!showBackLink()" href="javascript:void(0)" mdcToolbarMenuIcon><i class="material-icons">assignment</i></a>
+            </span>
+            
+        </section>
+
+        <section mdcToolbarSection>
+            <span mdcToolbarTitle ="teste">Glist</span>
+        </section>
+        
+        <section mdcToolbarSection alignEnd>
+            <span >{{userInfo?.name}}</span>
+            <button 
+                mdcTopAppBarAction
+                mdcIconButton 
+                class="material-icons"
+                label="logout"
+                (click)="onExitClick()">
+                exit_to_app
+            </button>
+        </section>
+        
+    </div>
+</header>
+

@@ -3,6 +3,7 @@ import { Item } from './item';
 export class MarketList {
     id: string;
     name: string;
+    owner: string;
     totalInCart: number;
     total: number;
     items: Array<Item>;
@@ -17,6 +18,7 @@ export class MarketList {
     build(list: MarketList) {
         this.id = list.id;
         this.name = list.name.toUpperCase();
+        this.owner = list.owner;
         this.items = new Array<Item>();
         list.items.forEach(item => {
             let newItem = new Item();
@@ -40,7 +42,6 @@ export class MarketList {
     }
 
     addItem(item: Item) {
-        this.validateList(item);
         let newItem = new Item();
         newItem.parse(item);
         newItem.name = newItem.name.toUpperCase();
@@ -60,12 +61,7 @@ export class MarketList {
 
     updateItem(itemIndex: number, item: Item) {
         let savedItem = this.items[itemIndex];
-        if (savedItem.name.toUpperCase() == item.name.toUpperCase()) {
-            savedItem.parse(item);
-        } else {
-            this.validateList(item);
-            savedItem.parse(item);
-        }
+        savedItem.parse(item);
     }
 
     putInCart(item: Item) {

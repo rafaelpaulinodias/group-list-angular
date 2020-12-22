@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import "hammerjs";
 
@@ -13,6 +13,10 @@ import { ListComponent } from './list/list.component';
 
 import { CurrencyMaskInputMode, NgxCurrencyModule } from "ngx-currency";
 import { HomeComponent } from './home/home.component';
+import { SecurityModule } from './security/security.module';
+import { AuthInterceptor } from './security/auth.interceptor';
+import { NavbarComponent } from './navbar/navbar.component';
+
 
 export const customCurrencyMaskConfig = {
   align: "right",
@@ -33,7 +37,8 @@ export const customCurrencyMaskConfig = {
   declarations: [
     AppComponent,
     ListComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -41,9 +46,16 @@ export const customCurrencyMaskConfig = {
     MaterialModule,
     HttpClientModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-    AppRoutingModule
+    AppRoutingModule,
+    SecurityModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

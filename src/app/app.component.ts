@@ -14,4 +14,8 @@ export class AppComponent {
   showBackLink() {
     return this.router.url !== '/home';
   }
+
+  showNavbar(): boolean {
+    return this.router.url !== '/login';
+  }
 }
