@@ -5,11 +5,99 @@
   <title>GList</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#BF360C" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
 </head>
 <body>
-  <app-root>G-List [Versão de teste]</app-root>
+  <app-root>
+    <div class="loader-page">
+      <div class="logo">
+          <img src="/assets/img/logo.png" alt="nome o app em forma de carrinho">
+      </div>
+      <div class="loader-container">
+          <div class="loader"></div>
+      </div>
+      <footer>
+          <div class="author">&#169; Rafael Dias</div>
+          <div class="version">beta 0.1</div>
+      </footer>
+    </div>
+  </app-root>
 </body>
+  <style>
+    body {
+        font-family: 'Roboto';
+        padding: 0;
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .loader-page {
+        background-color: #BF360C;
+        width: 100%;
+        height: 100%;
+        color: #fafafa;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: inherit;
+    }
+
+    .loader-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .loader {
+        margin-bottom: 70px;
+        border: 8px solid #ccc;
+        border-radius: 50%;
+        border-top: 8px solid #fafafa;
+        width: 50px;
+        height: 50px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    footer {
+        height: 30px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    .author {
+        margin-left: 10px;
+    }
+
+    .version {
+        display: flex;
+        float: right;
+        justify-self: baseline;
+        margin-right: 10px;
+    }
+  </style>
 </html>

@@ -1,3 +1,4 @@
+$mdc-theme-primary: #BF360C;
 
 
 // import theming for all mdc components:
@@ -10,6 +11,8 @@
 @import "@material/icon-button/mdc-icon-button";
 @import "@material/icon-toggle/mdc-icon-toggle";
 @import "@material/fab/mdc-fab";
+@import "@material/snackbar/mdc-snackbar";
+
 
 body {
     font-family: 'Roboto';

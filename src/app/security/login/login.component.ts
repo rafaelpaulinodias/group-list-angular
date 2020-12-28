@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MdcSnackbarService } from '@blox/material';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -17,8 +18,7 @@ export class LoginComponent implements OnInit {
     private route: Router
   ) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onEnterUp(event) {
     const inputs = document.getElementsByTagName('input');

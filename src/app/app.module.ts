@@ -38,7 +38,7 @@ export const customCurrencyMaskConfig = {
     AppComponent,
     ListComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
