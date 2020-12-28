@@ -3,18 +3,28 @@
 .login-page {
     display: flex;
     background-color: #BF360C;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    margin: 0;
+    padding: 0;
     align-items: center;
     justify-content: center;
 }
 .login-form {
     display: flex;
     width: 350px;
-    height: 350px;
+    height: 500px;
     flex-direction: column;
     padding: 10px;
+}
+
+.logo {
+    display: flex;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 35px;
+    align-self: center;
+    background-color: #BF360C;
 }
 
 .input-login {
@@ -24,4 +34,20 @@
 .login-button {
     background-color: white;
 }
+
+@media only screen and (max-width: 720px) {
+    .login-form {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        margin: 0;
+        padding: 0px;
+    }
+
+    .input-login {
+        margin: 20px 10px;
+    }
+
+  }
 

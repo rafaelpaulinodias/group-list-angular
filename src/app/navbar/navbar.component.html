@@ -3,15 +3,12 @@
         
         <section mdcToolbarSection alignStart>
             <span>
-                <a *ngIf="showBackLink()" [routerLink]="['/home']" mdcToolbarMenuIcon><i class="material-icons">&#xE5C4;</i></a>
-                <a *ngIf="!showBackLink()" href="javascript:void(0)" mdcToolbarMenuIcon><i class="material-icons">assignment</i></a>
+                <a *ngIf="showBackLink()" [routerLink]="['/home']" mdcToolbarMenuIcon>
+                    <i class="material-icons">&#xE5C4;</i>
+                </a>
+                <div *ngIf="!showBackLink()" class="space"></div>
             </span>
-            <span mdcToolbarTitle>Glist</span>
-            
-        </section>
-
-        <section mdcToolbarSection>
-            
+            <span class="app-name" mdcToolbarTitle>groupList</span>
         </section>
         
         <section mdcToolbarSection alignEnd>
