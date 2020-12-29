@@ -4,6 +4,8 @@ import { Item } from '../model/item';
 import { ActivatedRoute } from '@angular/router';
 import { ListService } from '../list.service';
 import { StringUtil } from '../utils/string-utils';
+import { MdcSnackbarService } from '@blox/material';
+import { ErrorHandlerService } from '../error-handler.service';
 
 @Component({
   selector: 'app-list',
@@ -22,6 +24,7 @@ export class ListComponent implements OnInit {
   constructor(
     private listService: ListService,
     private routeAct: ActivatedRoute,
+    private errorHandler: ErrorHandlerService,
     private stringUtil: StringUtil
     ) 
     {
@@ -51,21 +54,15 @@ export class ListComponent implements OnInit {
   
   onEnterKeyDownInputPrice() {
     if (this.editing) {
-      console.log("editando item");
       if (this.haveSameName(this.selectItemIndex, this.formItem)) {
-        console.log("edit: tem mesmo nome");
         this.updateItem(this.selectItemIndex, this.formItem);
       } else {
-        console.log("edit: não tem mesmo nome");
         if (this.validateItem(this.formItem)) {
-          console.log("edit: é valido");
           this.updateItem(this.selectItemIndex, this.formItem);
         }
       }
     } else {
-      console.log("add item");
       if (this.validateItem(this.formItem)) {
-        console.log("add: é valido");
         this.saveItem(this.formItem);
       }
     }
@@ -137,7 +134,7 @@ export class ListComponent implements OnInit {
       this.list.validateList(item);
       return true;
     } catch (error) {
-      alert(error);
+      this.errorHandler.handler(error);
       this.resetFormSelItem();
       return false;
     }

@@ -3,6 +3,7 @@ import { MarketList } from '../model/market-list';
 import { Router } from '@angular/router';
 import { ListService } from '../list.service';
 import { StringUtil } from '../utils/string-utils';
+import { ErrorHandlerService } from '../error-handler.service';
 
 @Component({
   selector: 'app-home',
@@ -17,11 +18,14 @@ export class HomeComponent implements OnInit {
 
   selectList: MarketList = new MarketList();
 
+  selectListIndex: number;
+
   lists: Array<MarketList> = new Array();
 
   constructor(
     private router: Router,
     private listService: ListService,
+    private errorHandler: ErrorHandlerService,
     private stringUtil: StringUtil
   ) { }
 
@@ -47,7 +51,8 @@ export class HomeComponent implements OnInit {
   onListItemEditButtonClick(list: MarketList) {
     this.editing = true;
     this.listName = this.stringUtil.toTitleCase(list.name);
-    this.selectList = list;
+    this.selectList.build(list);
+    this.selectListIndex = this.lists.indexOf(list);
   }
 
   onListItemDeleteButtonClick(list: MarketList) {
@@ -68,24 +73,41 @@ export class HomeComponent implements OnInit {
   }
 
   saveList(list: MarketList) {
-    this.listService.save(list).subscribe(savedList => {
-      let newList = new MarketList();
-      newList.build(savedList);
-      this.lists.push(newList);
-      this.listName = '';
-    });
+    this.listService.save(list).subscribe(
+      savedList => this.addNewListInView(savedList),
+      error => this.errorHandler.handler(error)
+    );
   }
 
   updeteList(list: MarketList) {
-    this.listService.update(list).subscribe(() => {
-      this.editing = false;
-      this.listName = '';
-    });
+    this.listService.update(list).subscribe(
+      () => {
+        this.lists[this.selectListIndex].name = list.name;
+        this.resetParams();
+      },
+      error => this.errorHandler.handler(error)
+    );
   }
 
   removeList(list: MarketList) {
     const index = this.lists.indexOf(list);
-    this.listService.delete(this.selectList.id).subscribe(() => this.lists.splice(index, 1));
+    this.listService.delete(this.selectList.id).subscribe(
+      () => this.lists.splice(index, 1),
+      error => this.errorHandler.handler(error)
+    );
+  }
+
+  addNewListInView(list: MarketList) {
+    let newList = new MarketList();
+    newList.build(list);
+    this.lists.push(newList);
+    this.resetParams();
+  }
+
+  resetParams() {
+    this.listName = '';
+    this.editing = false;
+    this.selectList = new MarketList();
   }
 
 }

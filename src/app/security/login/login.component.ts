@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MdcSnackbarService } from '@blox/material';
+import { ErrorHandlerService } from 'src/app/error-handler.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private route: Router
+    private route: Router,
+    private erroHandler: ErrorHandlerService
   ) { }
 
   ngOnInit(): void {}
@@ -32,9 +33,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.auth.login(this.username, this.password).subscribe(
-      ()=> {
-        this.route.navigate(['/home']);
-      }
+      () => this.route.navigate(['/home']),
+      error => this.erroHandler.handler(error)
     );
   }
 

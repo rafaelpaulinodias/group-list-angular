@@ -121,11 +121,11 @@ export class MarketList {
 
     validateList(item: Item) {
         if (item.name.trim() == "") {
-            throw new Error("The name can not be empty");
+            throw new Error("O nome não poder ser em branco.");
         }
 
         if (this.findItemByName(item.name.toUpperCase())) {
-            throw new Error("This item has already been inserted");
+            throw new Error("Já existe um item com este nome.");
         }
     }
 
