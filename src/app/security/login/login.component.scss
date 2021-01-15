@@ -3,8 +3,8 @@
 .login-page {
     display: flex;
     background-color: #BF360C;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     padding: 0;
     align-items: center;
     justify-content: center;
@@ -38,8 +38,8 @@
 @media only screen and (max-width: 720px) {
     .login-form {
         display: flex;
-        height: 100%;
-        width: 100%;
+        height: 100vh;
+        width: 100vw;
         flex-direction: column;
         margin: 0;
         padding: 0px;
