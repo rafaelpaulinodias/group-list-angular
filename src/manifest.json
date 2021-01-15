@@ -1,0 +1,15 @@
+{
+    "short_name": "GList",
+    "name": "Group Lists",
+    "icons": [
+      {
+        "src": "/assets/glist.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/index.html",
+    "display": "fullscreen",
+    "orientation": "portrait"
+  }
+  
