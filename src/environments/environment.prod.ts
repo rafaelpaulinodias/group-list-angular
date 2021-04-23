@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'api-prod-url'
+  apiUrl: 'https://glist-api.herokuapp.com/api/v1'
 };

@@ -16,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { SecurityModule } from './security/security.module';
 import { AuthInterceptor } from './security/auth.interceptor';
 import { NavbarComponent } from './navbar/navbar.component';
+import { LoadOverlayComponent } from './components/load-overlay/load-overlay.component';
 
 
 export const customCurrencyMaskConfig = {
@@ -39,6 +40,7 @@ export const customCurrencyMaskConfig = {
     ListComponent,
     HomeComponent,
     NavbarComponent,
+    LoadOverlayComponent,
   ],
   imports: [
     BrowserModule,
