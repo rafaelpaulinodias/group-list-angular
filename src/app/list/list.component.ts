@@ -20,6 +20,7 @@ export class ListComponent implements OnInit {
   itemToRemove: Item = new Item();
   editing: boolean = false;
   timeMousePress: Date;
+  showLoader: boolean;
 
   constructor(
     private listService: ListService,
@@ -27,11 +28,13 @@ export class ListComponent implements OnInit {
     private errorHandler: ErrorHandlerService,
     private stringUtil: StringUtil
     ) 
-    {
+    { 
+      this.showLoader = true;
       const marketListId = this.routeAct.snapshot.params['marketListId']
       if (marketListId) {
         this.listService.findById(marketListId).subscribe(resp => {
           this.list.build(resp);
+          this.showLoader = false;
         });
       }
     }

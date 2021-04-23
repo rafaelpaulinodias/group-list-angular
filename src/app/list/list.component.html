@@ -1,4 +1,5 @@
 <div class="page">
+    <app-load-overlay *ngIf="showLoader" message="Carregando Itens" ></app-load-overlay>
     <div class="list-name">
         {{list.name | titlecase}}
     </div>
