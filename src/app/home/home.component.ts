@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
 
   selectListIndex: number;
 
+  showLoader: boolean
+
   lists: Array<MarketList> = new Array();
 
   constructor(
@@ -30,11 +32,13 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.showLoader = true;
     this.listService.listAll().subscribe(resp => {
       resp.forEach(list => {
         let newList = new MarketList();
         newList.build(list);
         this.lists.push(newList);
+        this.showLoader = false;
       })
     });
   }

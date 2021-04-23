@@ -1,4 +1,5 @@
 <div class="page">
+    <app-load-overlay *ngIf="showLoader" message="Carregando Listas" ></app-load-overlay>
     <div mdcListGroup class="list-container">
         <ul mdcList *ngFor="let list of lists">
             <li mdcListItem >
